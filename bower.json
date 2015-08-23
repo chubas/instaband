@@ -1,0 +1,20 @@
+{
+  "name": "react-todo",
+  "version": "0.1.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "react": "~0.12.1",
+    "jquery": "~2.1.1",
+    "underscore": "~1.7.0",
+    "backbone": "~1.1.2",
+    "fontawesome": "~4.2.0",
+    "flux": "~2.0.2",
+    "bootstrap": "~3.3.1",
+    "eventEmitter": "~4.2.10"
+  },
+  "devDependencies": {}
+}

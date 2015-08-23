@@ -1,0 +1,7 @@
+bower_components
+node_modules
+public/js/app.js
+public/js/vendor.js
+public/js/*.map
+public/css/app.css
+public/css/*.map
