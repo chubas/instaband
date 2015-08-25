@@ -191,10 +191,7 @@ module.exports = React.createClass({
 
   render : function() {
     return <div className="canvas">
-      <canvas className="cover" />
-      {
-      // <img src={this.state.imageSrc} className="thumb" />
-      }
+      <canvas className="cover col-centered" />
     </div>
   }
 

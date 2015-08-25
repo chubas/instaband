@@ -83,34 +83,37 @@ var Instaband = React.createClass({
 
 
   render: function() {
-    return <div className="container">
-
-      <div className="cover">
-        Album
-        <Canvas ref="canvas" />
+    return <div className="editor">
+      <div className="container">
+        <div className="title">
+          INSTABAND
+        </div>
       </div>
-      <div className="info">
-        <div className="wiki">
-          Wiki page:
-          {this.state.article}
-        </div>
-
-        <div className="quote">
-          Quote:
-          {this.state.quote}
-        </div>
-
-        <div className="photo">
-          Photo:
-          {this.state.photoUrl}
-        </div>
-
-        <div className="generate">
+      <div className="container">
+          <Canvas ref="canvas" />
+      </div>
+      <div className="container">
+        <p className="text-center">
           <button type="button"
-                  className="btn btn-primary pull-right spacing-top"
+                  className="generate btn btn-primary btn-large pull-right spacing-top col-md-2 col-md-offset-7"
                   onClick={this.generate}>
             Generate
           </button>
+        </p>
+      </div>
+      <div className="container">
+        <div className="info">
+          <div className="wiki">
+            Wiki page: <span> {this.state.article} </span>
+          </div>
+
+          <div className="quote">
+            Quote: <span> {this.state.quote} </span>
+          </div>
+
+          <div className="photo">
+            Photo: <span>{this.state.photoUrl}</span>
+          </div>
         </div>
       </div>
     </div>;
