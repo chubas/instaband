@@ -16,15 +16,9 @@ var Instaband = React.createClass({
   getInitialState: function() {
     console.log('INITIAL STATE');
     return {
-      wiki: {
-        article : 'random'
-      },
-      quote : {
-        full : 'quote...'
-      },
-      photo : {
-        page : 'some flickr'
-      }
+      wiki: null,
+      quote: null,
+      photo: null
     }
   },
 
@@ -35,39 +29,33 @@ var Instaband = React.createClass({
 //     },
 
     componentDidMount: function() {
-      console.log('BINDING ON PHOTO');
-      // var dom = $(this.getDOMNode());
       emitter.on('photo', function(photo) {
-        console.log('CHANGING STATE', photo);
         this.setState({
           photoUrl : photo
         })
+        console.log('PHOTO loaded>>>', photo);
+        this.refs.canvas.loadImage(photo);
       }.bind(this));
-        // dispatcher.dispatch({ type: constants.all });
+      emitter.on('quote', function(quote) {
+        this.setState({
+          quote : quote
+        });
+        this.refs.canvas.drawAlbumName(quote);
+      }.bind(this));
+      emitter.on('article', function(article) {
+        this.setState({
+          article : article
+        });
+        this.refs.canvas.drawBandName(article);
+      }.bind(this));
     },
 
 //     componentsWillUnmount: function() {
 //         emitter.off(constants.all);
 //     },
 
-  // create: function() {
-  //   console.log('CEATING');
-  //   this.wiki = {
-  //     article: 'skdjlskdj'
-  //   }
-  //   this.setState({
-  //     wiki: {
-  //       article : 'wat'
-  //     }
-  //   });
-  //   // this.refs.create.show();
-  // },
-
-
   generate: function() {
-    $.get('/quote', function(response) {
-
-    });
+    this.refs.canvas.reset();
     $.get('/photo', function(photo) {
       console.log('Dispatching photo');
 
@@ -75,10 +63,21 @@ var Instaband = React.createClass({
         type : 'photo',
         content : photo.imageUrl
       });
-      this.refs.canvas.loadImage(photo.imageUrl);
     }.bind(this));
+    $.get('/quote', function(response) {
+      var albumName = _.last(response.quote.split(' '), 5).join(' ');
+      console.log('Album name', albumName);
+      dispatcher.dispatch({
+        type : 'quote',
+        content : albumName
+      })
+    });
     $.get('/article', function(article) {
-
+      var bandName = article.name;
+      dispatcher.dispatch({
+        type: 'article',
+        content: bandName
+      })
     });
   },
 
@@ -93,12 +92,12 @@ var Instaband = React.createClass({
       <div className="info">
         <div className="wiki">
           Wiki page:
-          {this.state.wiki && this.state.wiki.article}
+          {this.state.article}
         </div>
 
         <div className="quote">
           Quote:
-          {this.state.quote && this.state.quote.full}
+          {this.state.quote}
         </div>
 
         <div className="photo">
