@@ -1,6 +1,7 @@
+/* jshint node:true */
 "use strict";
 
 module.exports = {
-    components: require("./components"),
-    todo: require("./todo")
+  components: require("./components"),
+  instaband : require('./instaband')
 };

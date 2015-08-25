@@ -10,10 +10,9 @@ module.exports = React.createClass({
             return <Item todo={todo} />;
         });
     },
-    
+
     render: function() {
         return <ul className="list-group">
-            {this.renderItems()}
         </ul>;
-    } 
+    }
 });

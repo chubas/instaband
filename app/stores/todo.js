@@ -1,4 +1,4 @@
 var Base = require("./base"),
     constants = require("constants").todo;
 
-module.exports = new Base("fixtures/todos.json", constants);
+module.exports = new Base(constants, "fixtures/todos.json");

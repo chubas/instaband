@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require("react"),
-    
+
     dispatcher = require("dispatcher"),
     emitter = require("emitter"),
     constants = require("constants").todo;
@@ -13,16 +13,16 @@ module.exports = React.createClass({
             value: ""
         };
     },
-    
+
     componentDidMount: function () {
         this.$el = $(this.getDOMNode());
         this.$el.on("hidden.bs.modal", this.reset);
-        
+
         emitter.on(constants.changed, function() {
             this.$el.modal("hide");
         }.bind(this));
     },
-    
+
     componentWillUnmount: function() {
         emitter.off(constants.changed);
     },
@@ -34,15 +34,15 @@ module.exports = React.createClass({
     reset: function() {
         this.setState({ value: "" });
     },
-    
+
     save: function() {
         dispatcher.dispatch({ type: constants.create, content: { name: this.state.value, isComplete: false }});
     },
-    
+
     onChange: function(e) {
         this.setState({ value: e.target.value });
     },
-    
+
     render: function() {
 		return <div className="modal fade" tabIndex="-1" role="dialog" aria-hidden="true">
             <div className="modal-dialog modal-sm">
@@ -55,7 +55,7 @@ module.exports = React.createClass({
                         <h3 className="modal-title">New Task</h3>
                     </div>
                     <div className="modal-body">
-                        <input placeholder="Task name..." type="text" value={this.state.value} onChange={this.onChange} />        
+                        <input placeholder="Task name..." type="text" value={this.state.value} onChange={this.onChange} />
                     </div>
                     <div className="modal-footer">
 						<div className="row">

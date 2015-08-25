@@ -1,3 +1,4 @@
 module.exports = {
-    todo: require("stores/todo")
+  // todo: require("stores/todo")
+  instaband : require('stores/instaband')
 };
