@@ -113,29 +113,6 @@ var Instaband = React.createClass({
           </button>
         </div>
       </div>
-      {
-      // <div className="row">
-      //     <div className="col-md-8">
-      //         <h2>Todo List</h2>
-      //     </div>
-      //     <div className="col-md-4">
-      //         <button type="button" className="btn btn-primary pull-right spacing-top" onClick={this.create}>New Task</button>
-      //     </div>
-      // </div>
-
-      // <div className="row">
-      //     <div className="col-md-6">
-      //         <h3 className="spacing-bottom">Incomplete</h3>
-      //         {this.renderList(false)}
-      //     </div>
-      //     <div className="col-md-6">
-      //         <h3 className="spacing-bottom">Complete</h3>
-      //         {this.renderList(true)}
-      //     </div>
-      // </div>
-      // <Modal ref="create" />
-      }
-
     </div>;
   }
 });

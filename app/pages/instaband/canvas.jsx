@@ -1,6 +1,21 @@
 var React = require('react');
+var Please = require('./util/please');
+
+var pick = function(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
+var titleize = function(str) {
+  return str.toLowerCase().replace(/(?:^|\s|-)\S/g, function (m) {
+    return m.toUpperCase();
+  });
+};
 
 var ALBUM_SIZE = 520;
+var AVAILABLE_FONTS = [
+  'Bangers', 'Righteous', 'Comfortaa', 'Special Elite', 'Limelight',
+  'Overlock', 'Pirata One', 'Love Ya Like A Sister', 'Crushed', 'Nova Mono', 'Covered By Your Grace'
+];
 
 module.exports = React.createClass({
 
@@ -39,42 +54,86 @@ module.exports = React.createClass({
     this.whenImageLoaded()
     .then(function(context) {
 
-      var bandNameColor = "#000";
-      var bandFontFamily = 'Arial';
-      var bandX = 0, bandY = 0;
+      var base = Please.make_color()[0];
+      var scheme = pick([
+        'mono', 'complement', 'split', 'double', 'analogous', 'triad'
+      ]);
+      var colors = Please.make_scheme(Please.HEX_to_HSV(base), {
+        scheme_type : scheme
+      });
+
+      var bandNameColor = colors[0];
+      var bandFontFamily = pick(AVAILABLE_FONTS);
+      var bandX = Math.random() * 40;
+      var bandY = Math.random() * 40;
       var lines = bandName.split(/\n\r?\s*/);
       // var bandNameWidth = this._getTextWidth()
-      var bandNameHeight = 30;
+      // Min size based on number of characters in name
+      var minSize;
+      if(bandName.length < 10) {
+        minSize = 60;
+      } else if(bandName.length < 20) {
+        minSize = 50;
+      } else if(bandName.length < 30) {
+        minSize = 40;
+      } else {
+        minSize = 30;
+      }
+      // Delta proportionally
+      var delta = Math.floor(Math.random() * minSize * 0.3)
+      var bandNameHeight = Math.floor(Math.random() * delta) + minSize; // Btwn 25 and 40
 
-      // context.save();
+      console.log('BAND NAME HEIGHT WAS::', bandNameHeight);
+      context.save();
+
+      context.shadowColor = colors[1];
+      context.shadowOffsetX = Math.floor(Math.random() * 10) - 5; // integer
+      context.shadowOffsetY = Math.floor(Math.random() * 10) - 5; // integer
+      context.shadowBlur = Math.floor(Math.random() * 5) + 3; // integer
       context.textBaseline = "top";
       context.fillStyle = bandNameColor;
       context.font = '' + bandNameHeight + "px '" + bandFontFamily + "'";
-      $.each(lines, function(index, line){
+      $.each(lines, function(index, line) {
         context.fillText(line, bandX, bandY + (bandNameHeight * 1.2 * index));
       });
-      // context.restore();
+      context.restore();
     }.bind(this));
   },
 
   drawAlbumName: function(albumName) {
     this.whenImageLoaded()
     .then(function(context) {
-      var albumNameHeight = 20;
-      var albumNameColor = "#000";
-      var albumFontFamily = 'Arial';
+
+      var base = Please.make_color()[0];
+      var scheme = pick([
+        'mono', 'complement', 'split', 'double', 'analogous', 'triad'
+      ]);
+      var colors = Please.make_scheme(Please.HEX_to_HSV(base), {
+        scheme_type : scheme
+      });
+
+      var albumNameColor = colors[0];
+      var albumNameHeight = Math.floor(Math.random() * 10) + 20; // btwn 20 and 30
+      var albumFontFamily = pick(AVAILABLE_FONTS);
       var albumNameWidth = this._getTextWidth(albumName, albumNameHeight, albumFontFamily, context);
-      var albumX = ALBUM_SIZE - albumNameWidth;
-      var albumY = ALBUM_SIZE - albumNameHeight;
-      var lines = albumName.split(/\n\r?\s*/);
-      // context.save();
+      var albumX = ALBUM_SIZE - albumNameWidth - (Math.random() * 100);
+      var albumY = ALBUM_SIZE - albumNameHeight - (Math.random() * 100);
+      var lines = titleize(albumName).split(/\n\r?\s*/);
+
+      context.save();
+
+      context.shadowColor = colors[1];
+      context.shadowOffsetX = Math.floor(Math.random() * 10) - 5; // integer
+      context.shadowOffsetY = Math.floor(Math.random() * 10) - 5; // integer
+      context.shadowBlur = Math.floor(Math.random() * 5) + 3; // integer
       context.textBaseline = "top";
       context.fillStyle = albumNameColor;
       context.font = '' + albumNameHeight + "px '" + albumFontFamily + "'";
+
       $.each(lines, function(index, line){
         context.fillText(line, albumX, albumY + (albumNameHeight * 1.2 * index));
       });
-      // context.restore();
+      context.restore();
     }.bind(this));
   },
 
@@ -133,7 +192,9 @@ module.exports = React.createClass({
   render : function() {
     return <div className="canvas">
       <canvas className="cover" />
-      <img src={this.state.imageSrc} className="thumb" />
+      {
+      // <img src={this.state.imageSrc} className="thumb" />
+      }
     </div>
   }
 
