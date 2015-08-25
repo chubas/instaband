@@ -6,3 +6,4 @@ public/js/*.map
 public/css/app.css
 public/css/*.map
 data/
+config/flickr.json
